@@ -7,14 +7,10 @@ arguments.
 """
 
 import argparse
-import pygame
-
-
 
 def main():
     """Entry function for the traffic simulator."""
     args = parse_args()
-    pygame.init()
     print args
 
 def parse_args():

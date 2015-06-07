@@ -27,7 +27,7 @@ class Viewer(object):
                              (c.ROAD_NORTH_BOT_X, c.ROAD_NORTH_TOP_Y),
                              (c.ROAD_NORTH_BOT_X, c.ROAD_NORTH_BOT_Y),
                              (c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_BOT_Y),
-                             (c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_TOP_Y)], width=0)
+                             (c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_TOP_Y)], 0)
 
         # update that road
         self._update_north_road(road1)
@@ -38,7 +38,7 @@ class Viewer(object):
                              (c.ROAD_EAST_BOT_X, c.ROAD_EAST_TOP_Y),
                              (c.ROAD_EAST_BOT_X, c.ROAD_EAST_BOT_Y),
                              (c.ROAD_EAST_TOP_X, c.ROAD_EAST_BOT_Y),
-                             (c.ROAD_EAST_TOP_X, c.ROAD_EAST_TOP_Y)], width=0)
+                             (c.ROAD_EAST_TOP_X, c.ROAD_EAST_TOP_Y)], 0)
 
         # update that road
         self._update_east_road(road2)

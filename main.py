@@ -7,12 +7,22 @@ arguments.
 """
 
 import argparse
+import time
+import road
 import viewer
 
 def main():
     """Entry function for the traffic simulator."""
     args = parse_args()
-    print args
+    view = viewer.Viewer()
+    road1 = road.Road()
+    road2 = road.Road()
+
+    while 1:
+        road1.update()
+        road2.update()
+        view.update_roads(road1, road2)
+        time.sleep(1)
 
 def parse_args():
     """Read in commandline arguments and return them in an argument object."""

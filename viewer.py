@@ -1,12 +1,10 @@
 """This module defines the viewer class."""
 
-import pygame
-import spot
-import road
-import traffic_light
 import constants as c
+import pygame
+import traffic_light
 
-class Viewer():
+class Viewer(object):
     """A class representing the viewer, which renders the simulation in a window"""
     def __init__(self):
         """Initialise pygame, load all image files, draw the background"""
@@ -53,7 +51,7 @@ class Viewer():
         # Draw in the traffic light
         x_coord = c.ROAD_NORTH_TOP_X
         y_coord = curr_road.light_location() * c.SPOT_SIZE
-        image = self.red_light if road.light_color() == TrafficLight.RED else self.green_light
+        image = self.red_light if curr_road.light_color() == traffic_light.TrafficLight.RED else self.green_light
         self.screen.blit(image, (x_coord, y_coord))
 
         # draw cars onto the road
@@ -70,7 +68,7 @@ class Viewer():
         # Draw in the traffic light
         y_coord = c.ROAD_EAST_BOT_Y
         x_coord = curr_road.light_location() * c.SPOT_SIZE
-        image = self.red_light if r.light_color() == TrafficLight.RED else self.green_light
+        image = self.red_light if curr_road.light_color() == traffic_light.TrafficLight.RED else self.green_light
         self.screen.blit(image, (x_coord, y_coord))
 
         # draw cars onto the road

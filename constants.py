@@ -2,3 +2,18 @@
 
 ROAD_LENGTH = 101
 LIGHT_LOCATION = (ROAD_LENGTH / 2) - 1
+
+SCREEN_WIDTH = 510
+SCREEN_HEIGHT = 510
+
+# roads are 5 pixels wide, and the length of the screen
+# Each spot in a road is 5 pixels by 5 pixels. 
+ROAD_NORTH_TOP_X = 250
+ROAD_NORTH_TOP_Y = 0
+ROAD_NORTH_BOT_X = 255
+ROAD_NORTH_BOT_Y = 510
+
+ROAD_EAST_TOP_X = 250
+ROAD_EAST_TOP_Y = 0
+ROAD_EAST_BOT_X = 255
+ROAD_EAST_BOT_Y = 510

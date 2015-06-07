@@ -30,3 +30,15 @@ class Spot(object):
         assert self._car is not None
         destination_spot.add_car()
         self._car = None
+
+    def get_images(self):
+        """Return the image files for the object in this spot, or None"""
+        """First object is always either car image, or None. Second   """
+        """object in the list, if there, is the traffic light image   """
+        object_images = []
+        if has_car():
+            object_images.append(self._car.get_image())
+        else:
+            object_images.append(None)
+        if self._traffic_light != None:
+            object_images.append(self._traffic_light.get_image())

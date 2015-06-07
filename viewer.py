@@ -19,7 +19,7 @@ class Viewer(object):
         self.green_light = pygame.image.load(c.LIGHT_IMAGE_GREEN).convert()
 
     def update_roads(self, road1, road2):
-        """Render the roads and draw new car positions and light states for each step"""
+        """Render the roads for each step. road1 MUST be the north road"""
         color = pygame.Color(0, 255, 255, 255)
         # draw north road. We demand that road1 be the north road
         pygame.draw.polygon(self.screen, color,

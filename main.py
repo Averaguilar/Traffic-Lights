@@ -7,6 +7,7 @@ arguments.
 """
 
 import argparse
+import viewer
 
 def main():
     """Entry function for the traffic simulator."""

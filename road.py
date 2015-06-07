@@ -9,7 +9,7 @@ class Road(object):
     """A class representing a road. A road holds traffic lights and cars."""
     def __init__(self, color):
         """Initialize the road with length constants.ROAD_LENGTH"""
-        self._spots = constants.ROAD_LENGTH * [spot.Spot()]
+        self._spots = [spot.Spot() for _ in xrange(0, constants.ROAD_LENGTH)]
         self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
 
@@ -22,13 +22,14 @@ class Road(object):
 
         for i in xrange(constants.ROAD_LENGTH - 2, -1, -1):
             if (i == constants.LIGHT_LOCATION and
-                self._spots[constants.LIGHT_LOCATION].light_color() ==
-                traffic_light.TrafficLight.RED):
+                    self._spots[constants.LIGHT_LOCATION].light_color() ==
+                    traffic_light.TrafficLight.RED):
                 continue
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])
 
-        if self._steps % (random.randint(0, 9) + 5) == 0:
+        if (not self._spots[0].has_car() and
+                self._steps % (random.randint(0, 9) + 5) == 0):
             self._spots[0].add_car()
 
         # If red light, update queueing

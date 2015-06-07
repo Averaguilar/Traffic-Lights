@@ -31,8 +31,8 @@ def main():
         road1.update()
         road2.update()
         view.update_roads(road1, road2)
-        #time.sleep(1)
         time_steps += 1
+        time.sleep(0.01)
 
 def parse_args():
     """Read in commandline arguments and return them in an argument object."""

@@ -9,6 +9,7 @@ class Road(object):
     def __init__(self):
         """Initialize the road with length constants.ROAD_LENGTH"""
         self._spots = constants.ROAD_LENGTH * [spot.Spot()]
+        self._spots[constants.LIGHT_LOCATION].add_light()
         self._steps = 0
 
     def update(self):
@@ -27,3 +28,11 @@ class Road(object):
     def has_car(self, i):
         """Returns whether spot i on the road has a car."""
         return self._spots[i].has_car()
+
+    def light_color(self):
+        """Returns the color of the traffic light on this road."""
+        return self._spots[constants.LIGHT_LOCATION].light_color()
+
+    def light_location(self):
+        """Returns the location of the traffic light on this road."""
+        return constants.LIGHT_LOCATION

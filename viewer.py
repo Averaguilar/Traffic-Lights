@@ -11,10 +11,10 @@ class Viewer():
     def __init__(self):
         """Initialise pygame, load all image files, draw the background"""
         pygame.init()
-        self.screen = pygame.display.set_mode((c.SCREEN_WIDTH, c.SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode([c.SCREEN_WIDTH, c.SCREEN_HEIGHT])
 
         # initialise background to grey
-        self.screen.fill(150, 150, 150)
+        self.screen.fill(pygame.Color(0, 150, 150, 150))
 
         self.car = pygame.image.load(c.CAR_IMAGE).convert()
         self.red_light = pygame.image.load(c.LIGHT_IMAGE_RED).convert()
@@ -22,7 +22,7 @@ class Viewer():
 
     def update_roads(self, road1, road2):
         """Render the roads for each step. road1 MUST be the north road"""
-        color = pygame.Color(0, 255, 255, 255)
+        color = pygame.Color(0, 0, 0, 0)
         # draw north road. We demand that road1 be the north road
         pygame.draw.polygon(self.screen, color,
                             [(c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_TOP_Y),

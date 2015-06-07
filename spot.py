@@ -34,21 +34,17 @@ class Spot(object):
         destination_spot.add_car()
         self._car = None
 
-    def get_images(self):
-        """Return the image file for the car in this spot, or None"""
-        if has_car():
-            return self._car.get_image()
-        else:
-            return None
-
     def add_light(self, color):
+        """Add a traffic light to this spot initially set to the given color."""
         assert self._traffic_light is None
         self._traffic_light = traffic_light.TrafficLight(color)
 
     def flip_color(self):
+        """Flip he color of the traffic light on this spot."""
         assert self._traffic_light is not None
         self._traffic_light.flip_color()
 
     def light_color(self):
+        """Returns the color of the traffic light on this spot."""
         assert self._traffic_light is not None
         return self._traffic_light.get_color()

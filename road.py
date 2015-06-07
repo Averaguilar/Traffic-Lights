@@ -9,7 +9,7 @@ class Road(object):
     """A class representing a road. A road holds traffic lights and cars."""
     def __init__(self, color):
         """Initialize the road with length constants.ROAD_LENGTH"""
-        self._spots = [spot.Spot() for i in xrange(0, constants.ROAD_LENGTH)]
+        self._spots = [spot.Spot() for _ in xrange(0, constants.ROAD_LENGTH)]
         self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
 

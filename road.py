@@ -9,7 +9,7 @@ class Road(object):
     """A class representing a road. A road holds traffic lights and cars."""
     def __init__(self, color):
         """Initialize the road with length constants.ROAD_LENGTH"""
-        self._spots = constants.ROAD_LENGTH * [spot.Spot()]
+        self._spots = [spot.Spot() for i in xrange(0, constants.ROAD_LENGTH)]
         self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
 
@@ -28,7 +28,8 @@ class Road(object):
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])
 
-        if self._steps % (random.randint(0, 9) + 5) == 0:
+        if (not self._spots[0].has_car() and
+            self._steps % (random.randint(0, 9) + 5) == 0):
             self._spots[0].add_car()
 
         self._steps += 1

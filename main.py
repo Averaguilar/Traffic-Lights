@@ -9,14 +9,15 @@ arguments.
 import argparse
 import time
 import road
+import traffic_light
 import viewer
 
 def main():
     """Entry function for the traffic simulator."""
     args = parse_args()
     view = viewer.Viewer()
-    road1 = road.Road()
-    road2 = road.Road()
+    road1 = road.Road(traffic_light.TrafficLight.RED)
+    road2 = road.Road(traffic_light.TrafficLight.GREEN)
 
     while 1:
         road1.update()

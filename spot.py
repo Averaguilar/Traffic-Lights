@@ -1,8 +1,7 @@
 """A module that defines the class for a spot along a road."""
 # TODO(karl): create car module
 # import car
-# TODO(karl): actually use traffic light module
-# import traffic_light
+import traffic_light
 
 class Spot(object):
     """A spot is an area along a road.
@@ -25,6 +24,10 @@ class Spot(object):
         # TODO(karl): change this when car module is implemented
         self._car = True
 
+    def remove_car(self):
+        """Remove the car from this spot."""
+        self._car = None
+
     def move_car(self, destination_spot):
         """Move a car from this spot to another given spot."""
         assert self._car is not None
@@ -37,3 +40,15 @@ class Spot(object):
             return self._car.get_image()
         else:
             return None
+
+    def add_light(self, color):
+        assert self._traffic_light is None
+        self._traffic_light = traffic_light.TrafficLight(color)
+
+    def flip_color(self):
+        assert self._traffic_light is not None
+        self._traffic_light.flip_color()
+
+    def light_color(self):
+        assert self._traffic_light is not None
+        return self._traffic_light.get_color()

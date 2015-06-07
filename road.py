@@ -7,15 +7,18 @@ import traffic_light
 
 class Road(object):
     """A class representing a road. A road holds traffic lights and cars."""
-    def __init__(self):
+    def __init__(self, color):
         """Initialize the road with length constants.ROAD_LENGTH"""
         self._spots = constants.ROAD_LENGTH * [spot.Spot()]
-        self._spots[constants.LIGHT_LOCATION].add_light()
+        self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
 
     def update(self):
         """Update the cars on the road to move in a time increment."""
-        self._spots[constants.ROAD_LENGTH].remove_car()
+        self._spots[constants.ROAD_LENGTH - 1].remove_car()
+
+        if self._steps % 10 == 0:
+            self._spots[constants.LIGHT_LOCATION].flip_color()
 
         for i in xrange(constants.ROAD_LENGTH - 2, -1, -1):
             if (i == constants.LIGHT_LOCATION and

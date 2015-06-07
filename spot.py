@@ -32,13 +32,8 @@ class Spot(object):
         self._car = None
 
     def get_images(self):
-        """Return the image files for the object in this spot, or None"""
-        """First object is always either car image, or None. Second   """
-        """object in the list, if there, is the traffic light image   """
-        object_images = []
+        """Return the image file for the car in this spot, or None"""
         if has_car():
-            object_images.append(self._car.get_image())
+            return self._car.get_image()
         else:
-            object_images.append(None)
-        if self._traffic_light != None:
-            object_images.append(self._traffic_light.get_image())
+            return None

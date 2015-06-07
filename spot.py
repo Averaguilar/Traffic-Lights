@@ -13,6 +13,7 @@ class Spot(object):
         """Initialize an empty spot."""
         self._car = None
         self._traffic_light = None
+        self._queued = 0
 
     def has_car(self):
         """Return true if a car is on this spot."""
@@ -34,12 +35,17 @@ class Spot(object):
         destination_spot.add_car()
         self._car = None
 
-    def get_images(self):
-        """Return the image file for the car in this spot, or None"""
-        if has_car():
-            return self._car.get_image()
-        else:
-            return None
+    def is_queued_for_step(self):
+        """Increment the counter for steps queued for this spot""" 
+        self._queued += 1
+
+    def get_steps_queued(self):
+        """Get the number of steps this square has been queued on since last reset"""
+        return self._queued
+
+    def reset_queueing(self):
+        """Reset the queueing counter"""
+        self._queued = 0   
 
     def add_light(self, color):
         assert self._traffic_light is None

@@ -19,11 +19,20 @@ def main():
     road1 = road.Road(traffic_light.TrafficLight.RED)
     road2 = road.Road(traffic_light.TrafficLight.GREEN)
 
+    perf = 0
+
+    time_steps = 0
     while 1:
+        if time_steps % 1000 == 0:
+            perf = road1.get_amount_queued() + road2.get_amount_queued()
+            road1.reset_queueing()
+            road2.reset_queueing()
+            print "Performance: " + str(perf)
         road1.update()
         road2.update()
         view.update_roads(road1, road2)
-        time.sleep(1)
+        #time.sleep(1)
+        time_steps += 1
 
 def parse_args():
     """Read in commandline arguments and return them in an argument object."""

@@ -8,6 +8,7 @@ arguments.
 
 import argparse
 import pygame
+import viewer
 
 
 

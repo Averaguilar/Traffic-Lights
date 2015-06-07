@@ -3,6 +3,7 @@
 import constants
 import random
 import spot
+import traffic_light
 
 class Road(object):
     """A class representing a road. A road holds traffic lights and cars."""
@@ -17,6 +18,10 @@ class Road(object):
         self._spots[constants.ROAD_LENGTH].remove_car()
 
         for i in xrange(constants.ROAD_LENGTH - 2, -1, -1):
+            if (i == constants.LIGHT_LOCATION and
+                self._spots[constants.LIGHT_LOCATION].light_color() ==
+                traffic_light.TrafficLight.RED):
+                continue
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])
 

@@ -3,6 +3,7 @@
 import constants
 import random
 import spot
+import distributions
 import traffic_light
 
 class Road(object):
@@ -12,6 +13,8 @@ class Road(object):
         self._spots = [spot.Spot() for _ in xrange(0, constants.ROAD_LENGTH)]
         self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
+
+        self._car_distro = distributions.Probability()
 
     def update(self):
         """Update the cars on the road to move in a time increment."""
@@ -24,13 +27,15 @@ class Road(object):
                 continue
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])
+            else:
+                self._spots[i].queue()
 
-        if (not self._spots[0].has_car() and
-                self._steps % (random.randint(0, 9) + 5) == 0):
+        if (not self._spots[0].has_car() and self.create_car(distributions.Probability.STANDARD)):
             self._spots[0].add_car()
 
         # If red light, update queueing
-        self.update_queueing()
+        #if self._spots[constants.LIGHT_LOCATION].light_color() == traffic_light.TrafficLight.RED:
+        #    self.update_queueing()
 
         self._steps += 1
 
@@ -48,7 +53,7 @@ class Road(object):
 
     def flip_color(self):
         self._spots[constants.LIGHT_LOCATION].flip_color()
- 
+
     def update_queueing(self):
         """Update the queueing counters for each spot"""
         for i in xrange(constants.LIGHT_LOCATION + 1):
@@ -66,3 +71,10 @@ class Road(object):
         """Reset the queueing counters for each spot"""
         for i in xrange(constants.LIGHT_LOCATION + 1):
             self._spots[i].reset_queueing()
+
+    def create_car(self, distribution):
+        """Return true if a car should be created"""
+        if distribution == distributions.Probability.STANDARD:
+            return self._steps % (random.randint(0, 9) + 5) == 0
+        else:
+            return self._car_distro.get_value(distribution)

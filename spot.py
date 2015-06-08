@@ -13,6 +13,7 @@ class Spot(object):
         self._car = None
         self._traffic_light = None
         self._queued = 0
+        self._car_moved = False
 
     def has_car(self):
         """Return true if a car is on this spot."""
@@ -33,6 +34,13 @@ class Spot(object):
         self._car.move()
         destination_spot._car = self._car
         self._car = None
+        self._car_moved = True
+
+    def queue(self):
+        """If there is a car and it hasn't changed"""
+        if self._car != None:
+            self._car_moved = False
+            self._queued += 1
 
     def is_queued_for_step(self):
         """Increment the counter for steps queued for this spot"""

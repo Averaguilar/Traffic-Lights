@@ -30,7 +30,7 @@ class Road(object):
             else:
                 self._spots[i].queue()
 
-        if (not self._spots[0].has_car() and self.create_car(distributions.Probability.STANDARD)):
+        if (not self._spots[0].has_car() and self.create_car(distributions.Probability.POISSON)):
             self._spots[0].add_car()
 
         # If red light, update queueing

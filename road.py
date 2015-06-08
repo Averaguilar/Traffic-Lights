@@ -19,15 +19,18 @@ class Road(object):
 
         for i in xrange(constants.ROAD_LENGTH - 2, -1, -1):
             if (i == constants.LIGHT_LOCATION and
-                self._spots[constants.LIGHT_LOCATION].light_color() ==
-                traffic_light.TrafficLight.RED):
+                    self._spots[constants.LIGHT_LOCATION].light_color() ==
+                    traffic_light.TrafficLight.RED):
                 continue
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])
 
         if (not self._spots[0].has_car() and
-            self._steps % (random.randint(0, 9) + 5) == 0):
+                self._steps % (random.randint(0, 9) + 5) == 0):
             self._spots[0].add_car()
+
+        # If red light, update queueing
+        self.update_queueing()
 
         self._steps += 1
 
@@ -45,3 +48,21 @@ class Road(object):
 
     def flip_color(self):
         self._spots[constants.LIGHT_LOCATION].flip_color()
+ 
+    def update_queueing(self):
+        """Update the queueing counters for each spot"""
+        for i in xrange(constants.LIGHT_LOCATION + 1):
+            if self.has_car(i):
+                self._spots[i].is_queued_for_step()
+
+    def get_amount_queued(self):
+        """Return the total number of steps queued over the whole road"""
+        queued = 0
+        for road_spot in self._spots:
+            queued += road_spot.get_steps_queued()
+        return queued
+
+    def reset_queueing(self):
+        """Reset the queueing counters for each spot"""
+        for i in xrange(constants.LIGHT_LOCATION + 1):
+            self._spots[i].reset_queueing()

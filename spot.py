@@ -1,6 +1,5 @@
 """A module that defines the class for a spot along a road."""
-# TODO(karl): create car module
-# import car
+import car
 import traffic_light
 
 class Spot(object):
@@ -21,8 +20,7 @@ class Spot(object):
     def add_car(self):
         """Add a car to the spot."""
         assert self._car is None
-        # TODO(karl): change this when car module is implemented
-        self._car = True
+        self._car = car.Car()
 
     def remove_car(self):
         """Remove the car from this spot."""
@@ -31,7 +29,8 @@ class Spot(object):
     def move_car(self, destination_spot):
         """Move a car from this spot to another given spot."""
         assert self._car is not None
-        destination_spot.add_car()
+        self._car.move()
+        destination_spot._car = self._car
         self._car = None
 
     def add_light(self, color):

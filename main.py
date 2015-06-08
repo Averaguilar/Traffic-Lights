@@ -7,8 +7,10 @@ arguments.
 """
 
 import argparse
+import learner
 import time
 import road
+import state
 import traffic_light
 import viewer
 
@@ -16,12 +18,20 @@ def main():
     """Entry function for the traffic simulator."""
     args = parse_args()
     view = viewer.Viewer()
+    learning_algorithm = learner.Learner()
     road1 = road.Road(traffic_light.TrafficLight.RED)
     road2 = road.Road(traffic_light.TrafficLight.GREEN)
 
     while 1:
+        old_state = state.State([road1, road2])
+        action = learning_algorithm.get_action(old_state)
+        if action:
+            road1.flip_color()
+            road2.flip_color()
         road1.update()
         road2.update()
+        new_state = state.State([road1, road2])
+        learning_algorithm.learn(old_state, new_state, action)
         view.update_roads(road1, road2)
         time.sleep(0.01)
 

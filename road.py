@@ -17,9 +17,6 @@ class Road(object):
         """Update the cars on the road to move in a time increment."""
         self._spots[constants.ROAD_LENGTH - 1].remove_car()
 
-        if self._steps % 10 == 0:
-            self._spots[constants.LIGHT_LOCATION].flip_color()
-
         for i in xrange(constants.ROAD_LENGTH - 2, -1, -1):
             if (i == constants.LIGHT_LOCATION and
                 self._spots[constants.LIGHT_LOCATION].light_color() ==
@@ -45,3 +42,6 @@ class Road(object):
     def light_location(self):
         """Returns the location of the traffic light on this road."""
         return constants.LIGHT_LOCATION
+
+    def flip_color(self):
+        self._spots[constants.LIGHT_LOCATION].flip_color()

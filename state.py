@@ -22,7 +22,7 @@ class State(object):
 
             i = 0
             while i < 9:
-                if road.has_car(start + 1 + i, 0):
+                if road.has_car(start + 1 + i, 1):
                     break
                 i += 1
             closest.append(i)

@@ -38,10 +38,10 @@ class Intersection(object):
                     curr_road.flip_color()
                 else:
                     self._to_switch = curr_road
-            self._switch_time = 5 
+            self._switch_time = 3 
         elif self._switch_time != 0:
             self._switch_time -= 1
-            if self._switch_time == 3:
+            if self._switch_time == 1:
                 self._to_switch.flip_color()
 
         for curr_road in self._roads:

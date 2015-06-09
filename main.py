@@ -27,10 +27,10 @@ def main():
     while 1:
         # Snapshot the state of the roads
         view.update_roads(road1, road2)
-        print road1.get_amount_queued() + road2.get_amount_queued()
         if time_steps % 1000 == 0:
             road1.reset_queueing()
             road2.reset_queueing()
+            print road1.get_amount_queued() + road2.get_amount_queued()
         old_state = state.State([road1, road2], switch_time)
 
         # Update the state of the roads

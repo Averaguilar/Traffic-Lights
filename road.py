@@ -13,7 +13,7 @@ class Road(object):
         self._spots = [spot.Spot() for _ in xrange(0, constants.ROAD_LENGTH)]
         self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
-
+        self._num_queued = 0
         self._car_distro = distributions.Probability()
 
     def update(self):
@@ -24,19 +24,17 @@ class Road(object):
             if (i == constants.LIGHT_LOCATION and
                     self._spots[constants.LIGHT_LOCATION].light_color() ==
                     traffic_light.TrafficLight.RED):
-                continue
+                if self._spots[i].has_car():
+                    self._num_queued += 1                
+                    continue
+
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])
-            else:
-                self._spots[i].queue()
+            elif self._spots[i].has_car():
+                self._num_queued += 1
 
         if (not self._spots[0].has_car() and self.create_car(distributions.Probability.POISSON)):
             self._spots[0].add_car()
-
-        # If red light, update queueing
-        #if self._spots[constants.LIGHT_LOCATION].light_color() == traffic_light.TrafficLight.RED:
-        #    self.update_queueing()
-
         self._steps += 1
 
     def has_car(self, i):
@@ -54,23 +52,13 @@ class Road(object):
     def flip_color(self):
         self._spots[constants.LIGHT_LOCATION].flip_color()
 
-    def update_queueing(self):
-        """Update the queueing counters for each spot"""
-        for i in xrange(constants.LIGHT_LOCATION + 1):
-            if self.has_car(i):
-                self._spots[i].is_queued_for_step()
-
     def get_amount_queued(self):
         """Return the total number of steps queued over the whole road"""
-        queued = 0
-        for road_spot in self._spots:
-            queued += road_spot.get_steps_queued()
-        return queued
+        return self._num_queued
 
     def reset_queueing(self):
         """Reset the queueing counters for each spot"""
-        for i in xrange(constants.LIGHT_LOCATION + 1):
-            self._spots[i].reset_queueing()
+        self._num_queued = 0
 
     def create_car(self, distribution):
         """Return true if a car should be created"""

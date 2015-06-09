@@ -1,4 +1,5 @@
 """A module for storing constants in the traffic light simulator."""
+DISCOUNT = 0.9
 
 ROAD_LENGTH = 101
 LIGHT_LOCATION = (ROAD_LENGTH / 2) - 1

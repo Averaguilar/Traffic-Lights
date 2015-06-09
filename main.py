@@ -21,28 +21,32 @@ def main():
     learning_algorithm = learner.Learner()
     road1 = road.Road(traffic_light.TrafficLight.RED)
     road2 = road.Road(traffic_light.TrafficLight.GREEN)
-
-    perf = 0
-
     time_steps = 0
+    switch_time = 0
+
     while 1:
-        old_state = state.State([road1, road2])
+        # Snapshot the state of the roads
+        view.update_roads(road1, road2)
+        print road1.get_amount_queued() + road2.get_amount_queued()
+        if time_steps % 1000 == 0:
+            road1.reset_queueing()
+            road2.reset_queueing()
+        old_state = state.State([road1, road2], switch_time)
+
+        # Update the state of the roads
+        if switch_time != 0:
+            switch_time -= 1
         action = learning_algorithm.get_action(old_state)
         if action:
             road1.flip_color()
             road2.flip_color()
-        if time_steps % 1000 == 0:
-            perf = road1.get_amount_queued() + road2.get_amount_queued()
-            road1.reset_queueing()
-            road2.reset_queueing()
-            print perf
+            switch_time = 3
         road1.update()
         road2.update()
-        new_state = state.State([road1, road2])
+        new_state = state.State([road1, road2], switch_time)
         learning_algorithm.learn(old_state, new_state, action)
-        view.update_roads(road1, road2)
         time_steps += 1
-        #time.sleep(0.0001)
+        time.sleep(0.01)
 
 def parse_args():
     """Read in commandline arguments and return them in an argument object."""

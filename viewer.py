@@ -21,25 +21,18 @@ class Viewer(object):
     def update_roads(self, road1, road2):
         """Render the roads for each step. road1 MUST be the north road"""
         color = pygame.Color(0, 0, 0, 0)
-        # draw north road. We demand that road1 be the north road
-        pygame.draw.polygon(self.screen, color,
-                            [(c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_TOP_Y),
-                             (c.ROAD_NORTH_BOT_X, c.ROAD_NORTH_TOP_Y),
-                             (c.ROAD_NORTH_BOT_X, c.ROAD_NORTH_BOT_Y),
-                             (c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_BOT_Y),
-                             (c.ROAD_NORTH_TOP_X, c.ROAD_NORTH_TOP_Y)], 0)
 
-        # update that road
-        self._update_north_road(road1)
+        pygame.draw.rect(self.screen, color,
+                         pygame.Rect(c.ROAD_NORTH_LEFT, c.ROAD_NORTH_TOP,
+                                     c.ROAD_WIDTH, c.ROAD_HEIGHT)) 
 
         # draw east road
-        pygame.draw.polygon(self.screen, color,
-                            [(c.ROAD_EAST_TOP_X, c.ROAD_EAST_TOP_Y),
-                             (c.ROAD_EAST_BOT_X, c.ROAD_EAST_TOP_Y),
-                             (c.ROAD_EAST_BOT_X, c.ROAD_EAST_BOT_Y),
-                             (c.ROAD_EAST_TOP_X, c.ROAD_EAST_BOT_Y),
-                             (c.ROAD_EAST_TOP_X, c.ROAD_EAST_TOP_Y)], 0)
-
+        pygame.draw.rect(self.screen, color,
+                         pygame.Rect(c.ROAD_EAST_LEFT, c.ROAD_EAST_TOP,
+                                     c.ROAD_HEIGHT, c.ROAD_WIDTH))
+        # update that road
+        self._update_north_road(road1)
+        
         # update that road
         self._update_east_road(road2)
 
@@ -49,37 +42,41 @@ class Viewer(object):
     def _update_north_road(self, curr_road):
         """Draw the north-bound traffic, and the light"""
         # Draw in the traffic light
-        x_coord = c.ROAD_NORTH_TOP_X
-        y_coord = curr_road.light_location() * c.SPOT_SIZE
-        image = self.red_light
+        x_coord = c.ROAD_NORTH_LEFT 
+        y_coord = (curr_road.crossing_location()  - 1)* c.SPOT_SIZE
         if curr_road.light_color() == traffic_light.TrafficLight.GREEN:
             image = self.green_light
-        self.screen.blit(image, (x_coord + 3, y_coord + 3))
+        else:
+            image = self.red_light
+        self.screen.blit(image, (x_coord + 1, y_coord + 3))
+        self.screen.blit(image, (x_coord + 7, y_coord + 15))
 
+        car_coord = x_coord + 1
         # draw cars onto the road
-        i = 0
-        while i < c.ROAD_LENGTH:
-            y_coord = i * c.SPOT_SIZE
-            if curr_road.has_car(i):
-                self.screen.blit(self.car, (x_coord + 1, y_coord + 1))
-
-            i += 1
+        for lane_index in xrange(c.NUM_LANES):
+            for i in xrange(c.ROAD_LENGTH):
+                y_coord = i * c.SPOT_SIZE
+                if curr_road.has_car(i, lane_index):
+                    self.screen.blit(self.car, (car_coord, y_coord + 1))
+            car_coord += 5
 
     def _update_east_road(self, curr_road):
         """Draw the east-bound traffic, and the light"""
         # Draw in the traffic light
-        y_coord = c.ROAD_EAST_TOP_Y
-        x_coord = curr_road.light_location() * c.SPOT_SIZE
-        image = self.red_light
+        y_coord = c.ROAD_EAST_TOP
+        x_coord = (curr_road.crossing_location() - 1) * c.SPOT_SIZE
         if curr_road.light_color() == traffic_light.TrafficLight.GREEN:
             image = self.green_light
+        else:
+            image = self.red_light
         self.screen.blit(image, (x_coord + 3, y_coord + 1))
+        self.screen.blit(image, (x_coord + 15, y_coord + 7))
 
+        car_coord = y_coord + 1 
         # draw cars onto the road
-        i = 0
-        while i < c.ROAD_LENGTH:
-            x_coord = i * c.SPOT_SIZE
-            if curr_road.has_car(i):
-                self.screen.blit(self.car, (x_coord + 2, y_coord + 3))
-
-            i += 1
+        for lane_index in xrange(c.NUM_LANES):
+            for i in xrange(c.ROAD_LENGTH):
+                x_coord = i * c.SPOT_SIZE
+                if curr_road.has_car(i, lane_index):
+                    self.screen.blit(self.car, (x_coord + 2, car_coord))
+            car_coord += 5

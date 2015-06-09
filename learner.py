@@ -40,6 +40,11 @@ def reward(state, switch_lights):
         stopped_road = state.green_road()
     else:
         stopped_road = state.red_road()
+    if stopped_road == -1:
+        if state.closest_car(0) == 1 or state.closest_car(1) == 1:
+            return -1
+        else: 
+            return 0
 
     if state.closest_car(stopped_road) == 1:
         return -1

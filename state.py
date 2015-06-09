@@ -8,15 +8,26 @@ class State(object):
     """
     def __init__(self, roads, wait_time):
         """Create a new state according to the roads and traffic light wait."""
+        self._green_road = -1
         self._closest = []
         for road in roads:
-            start = road.light_location() + 1
+            start = road.crossing_location()
+            closest = []
             i = 0
             while i < 9:
-                if road.has_car(start - i):
+                if road.has_car(start - i, 0):
                     break
                 i += 1
-            self._closest.append(i)
+            closest.append(i)
+
+            i = 0
+            while i < 9:
+                if road.has_car(start + 1 + i, 0):
+                    break
+                i += 1
+            closest.append(i)
+
+            self._closest.append(min(closest))
         for i in xrange(0, len(roads)):
             if roads[i].light_color() == traffic_light.TrafficLight.GREEN:
                 self._green_road = i
@@ -43,6 +54,8 @@ class State(object):
 
     def red_road(self):
         """Returns the road number of the road with a red light."""
+        if self._green_road == -1:
+            return -1
         return (self._green_road + 1) % 2
 
     def closest_car(self, road_num):

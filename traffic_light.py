@@ -17,6 +17,6 @@ class TrafficLight(object):
         elif self._color == TrafficLight.GREEN:
             self._color = TrafficLight.RED
 
-    def get_color(self):
+    def light_color(self):
         """Get the current state of the traffic light."""
         return self._color

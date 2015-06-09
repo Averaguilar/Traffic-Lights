@@ -15,6 +15,7 @@ class Intersection(object):
                  road.Road(traffic_light.TrafficLight.GREEN,
                            distributions.Probability.STANDARD)]
         self._switch_time = 0
+        self._to_switch = None
 
     def get_state(self):
         """Returns the state of the intersection used by the learning module."""
@@ -33,10 +34,15 @@ class Intersection(object):
         if switch_lights:
             assert self._switch_time == 0
             for curr_road in self._roads:
-                curr_road.flip_color()
-            self._switch_time = 3
+                if curr_road.light_color() == traffic_light.TrafficLight.GREEN:
+                    curr_road.flip_color()
+                else:
+                    self._to_switch = curr_road
+            self._switch_time = 5 
         elif self._switch_time != 0:
             self._switch_time -= 1
+            if self._switch_time == 3:
+                self._to_switch.flip_color()
 
         for curr_road in self._roads:
             curr_road.update()

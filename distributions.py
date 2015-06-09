@@ -32,13 +32,17 @@ class Probability(object):
         # the chance is returned as a percentage
         if distribution == self.GAUSSIAN:
             variable = np.random.normal(self._GAUSSIAN_MEAN, self._GUASSIAN_VAR, None)
+            prob = (1/(2*np.pi*self._GUASSIAN_VAR**2))*np.exp(-1*((variable - self._GAUSSIAN_MEAN)**2)/(2*self._GUASSIAN_VAR**2))
+            if random.randint(0, 100) <= prob*100:
+                return True
         elif distribution == self.POISSON:
             variable = np.random.poisson(self._POISSON_MEAN, None)
             prob = np.exp(-1*self._POISSON_MEAN)*(np.power([self._POISSON_MEAN], variable)[0])/np.math.factorial(variable)
             if random.randint(0, 100) <= prob*100:
                 return True
-            return False
         elif distribution == self.UNIFORM:
-            return 100*self._UNIFORM_MEAN
-        else:
-            return 0
+            variable = 100*self._UNIFORM_MEAN
+            prob = variable
+            if random.randint(0,100) <= prob:
+                return True
+        return False

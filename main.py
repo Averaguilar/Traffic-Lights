@@ -13,24 +13,26 @@ import road
 import state
 import traffic_light
 import viewer
+import distributions
 
 def main():
     """Entry function for the traffic simulator."""
     args = parse_args()
     view = viewer.Viewer()
     learning_algorithm = learner.Learner()
-    road1 = road.Road(traffic_light.TrafficLight.RED)
-    road2 = road.Road(traffic_light.TrafficLight.GREEN)
+    road1 = road.Road(traffic_light.TrafficLight.RED, distributions.Probability.STANDARD)
+    road2 = road.Road(traffic_light.TrafficLight.GREEN, distributions.Probability.STANDARD)
+
     time_steps = 0
     switch_time = 0
 
     while 1:
         # Snapshot the state of the roads
         view.update_roads(road1, road2)
-        if time_steps % 1000 == 0:
+        if time_steps % 1000 == 0 and time_steps != 0:
+            print road1.get_amount_queued() + road2.get_amount_queued()
             road1.reset_queueing()
             road2.reset_queueing()
-            print road1.get_amount_queued() + road2.get_amount_queued()
         old_state = state.State([road1, road2], switch_time)
 
         # Update the state of the roads
@@ -46,7 +48,7 @@ def main():
         new_state = state.State([road1, road2], switch_time)
         learning_algorithm.learn(old_state, new_state, action)
         time_steps += 1
-        time.sleep(0.01)
+        time.sleep(0.5)
 
 def parse_args():
     """Read in commandline arguments and return them in an argument object."""

@@ -13,14 +13,15 @@ import road
 import state
 import traffic_light
 import viewer
+import distributions
 
 def main():
     """Entry function for the traffic simulator."""
     args = parse_args()
     view = viewer.Viewer()
     learning_algorithm = learner.Learner()
-    road1 = road.Road(traffic_light.TrafficLight.RED)
-    road2 = road.Road(traffic_light.TrafficLight.GREEN)
+    road1 = road.Road(traffic_light.TrafficLight.RED, distributions.Probability.STANDARD)
+    road2 = road.Road(traffic_light.TrafficLight.GREEN, distributions.Probability.POISSON)
 
     perf = 0
 

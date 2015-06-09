@@ -8,13 +8,14 @@ import traffic_light
 
 class Road(object):
     """A class representing a road. A road holds traffic lights and cars."""
-    def __init__(self, color):
+    def __init__(self, color, distribution):
         """Initialize the road with length constants.ROAD_LENGTH"""
         self._spots = [spot.Spot() for _ in xrange(0, constants.ROAD_LENGTH)]
         self._spots[constants.LIGHT_LOCATION].add_light(color)
         self._steps = 0
 
         self._car_distro = distributions.Probability()
+        self._distribution = distribution
 
     def update(self):
         """Update the cars on the road to move in a time increment."""
@@ -30,7 +31,7 @@ class Road(object):
             else:
                 self._spots[i].queue()
 
-        if (not self._spots[0].has_car() and self.create_car(distributions.Probability.POISSON)):
+        if (not self._spots[0].has_car() and self.create_car(self._distribution)):
             self._spots[0].add_car()
 
         # If red light, update queueing

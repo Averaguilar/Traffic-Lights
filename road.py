@@ -25,7 +25,7 @@ class Road(object):
                     self._spots[constants.LIGHT_LOCATION].light_color() ==
                     traffic_light.TrafficLight.RED):
                 if self._spots[i].has_car():
-                    self._num_queued += 1                
+                    self._num_queued += 1
                     continue
 
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
@@ -33,8 +33,8 @@ class Road(object):
             elif self._spots[i].has_car():
                 self._num_queued += 1
 
-        if (not self._spots[0].has_car() and self.create_car(distributions.Probability.POISSON)):
-            self._spots[0].add_car()
+        if not self._spots[0].has_car():
+            self.create_car(distributions.Probability.POISSON)
         self._steps += 1
 
     def has_car(self, i):
@@ -50,6 +50,7 @@ class Road(object):
         return constants.LIGHT_LOCATION
 
     def flip_color(self):
+        """Change the color of the traffic lights on this road."""
         self._spots[constants.LIGHT_LOCATION].flip_color()
 
     def get_amount_queued(self):
@@ -63,6 +64,7 @@ class Road(object):
     def create_car(self, distribution):
         """Return true if a car should be created"""
         if distribution == distributions.Probability.STANDARD:
-            return self._steps % (random.randint(0, 9) + 5) == 0
-        else:
-            return self._car_distro.get_value(distribution)
+            if self._steps % (random.randint(0, 9) + 5) == 0:
+                self._spots[0].add_car()
+        elif self._car_distro.get_value(distribution):
+            self._spots[0].add_car()

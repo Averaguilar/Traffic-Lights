@@ -9,7 +9,7 @@ class Spot(object):
 
     def __init__(self):
         """Initialize an empty spot."""
-        self._car = False 
+        self._car = False
         self._traffic_light = None
 
     def has_car(self):
@@ -18,17 +18,17 @@ class Spot(object):
 
     def add_car(self):
         """Add a car to the spot."""
-        assert not self._car 
+        assert not self._car
         self._car = True
 
     def remove_car(self):
         """Remove the car from this spot."""
-        self._car = False 
+        self._car = False
 
     def move_car(self, destination_spot):
         """Move a car from this spot to another given spot."""
         assert self._car
-        destination_spot._car = self._car
+        destination_spot.add_car()
         self._car = False
 
     def add_light(self, color):

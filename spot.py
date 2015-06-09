@@ -1,5 +1,4 @@
 """A module that defines the class for a spot along a road."""
-import car
 import traffic_light
 
 class Spot(object):
@@ -10,49 +9,27 @@ class Spot(object):
 
     def __init__(self):
         """Initialize an empty spot."""
-        self._car = None
+        self._car = False 
         self._traffic_light = None
-        self._queued = 0
-        self._car_moved = False
 
     def has_car(self):
         """Return true if a car is on this spot."""
-        return self._car is not None
+        return self._car
 
     def add_car(self):
         """Add a car to the spot."""
-        assert self._car is None
-        self._car = car.Car()
+        assert not self._car 
+        self._car = True
 
     def remove_car(self):
         """Remove the car from this spot."""
-        self._car = None
+        self._car = False 
 
     def move_car(self, destination_spot):
         """Move a car from this spot to another given spot."""
-        assert self._car is not None
-        self._car.move()
+        assert self._car
         destination_spot._car = self._car
-        self._car = None
-        self._car_moved = True
-
-    def queue(self):
-        """If there is a car and it hasn't changed"""
-        if self._car != None:
-            self._car_moved = False
-            self._queued += 1
-
-    def is_queued_for_step(self):
-        """Increment the counter for steps queued for this spot"""
-        self._queued += 1
-
-    def get_steps_queued(self):
-        """Get the number of steps this square has been queued on since last reset"""
-        return self._queued
-
-    def reset_queueing(self):
-        """Reset the queueing counter"""
-        self._queued = 0
+        self._car = False
 
     def add_light(self, color):
         """Add a traffic light to this spot initially set to the given color."""

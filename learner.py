@@ -17,10 +17,13 @@ class Learner(object):
 
         self._q_estimate[last_state][switch_lights] = ((1 - alpha) *
             self._q_estimate[last_state][switch_lights] + alpha *
-            (reward(last_state, switch_lights) + max_q))
+            (reward(last_state, switch_lights) + constants.DISCOUNT * max_q))
         self._num_visits[last_state][switch_lights] += 1
 
     def get_action(self, state):
+        if state.wait_time() > 0:
+            return False
+
         if self._q_estimate[state][True] > self._q_estimate[state][False]:
             return True
         else:

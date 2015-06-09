@@ -2,7 +2,7 @@ import road
 import traffic_light
 
 class State(object):
-    def __init__(self, roads):
+    def __init__(self, roads, wait_time):
         self._closest = []
         for road in roads:
             start = road.light_location() + 1
@@ -13,15 +13,19 @@ class State(object):
         for i in xrange(0, len(roads)):
             if roads[i].light_color() == traffic_light.TrafficLight.GREEN:
                 self._green_road = i
+        self._wait_time = wait_time
+
     def __eq__(self, other):
         for i in xrange(len(self._closest)):
             if self._closest[i] != other._closest[i]:
                 return False
-        return self._green_road == other._green_road
+        return (self._green_road == other._green_road and 
+                self._wait_time == other._wait_time)
 
     def __hash__(self):
         hash_list = list(self._closest)
         hash_list.append(self._green_road)
+        hash_list.append(self._wait_time)
         return hash(tuple(hash_list))
 
     def green_road(self):
@@ -32,3 +36,6 @@ class State(object):
 
     def closest_car(self, road_num):
         return self._closest[road_num]
+
+    def wait_time(self):
+        return self._wait_time

@@ -27,7 +27,7 @@ class Road(object):
                     traffic_light.TrafficLight.RED):
                 if self._spots[i].has_car():
                     self._num_queued += 1
-                    continue
+                continue
 
             if self._spots[i].has_car() and not self._spots[i + 1].has_car():
                 self._spots[i].move_car(self._spots[i + 1])

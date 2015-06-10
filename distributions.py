@@ -11,7 +11,7 @@ class Probability(object):
     UNIFORM = 2
     STANDARD = 3
 
-    _POISSON_MEAN = 2
+    _POISSON_MEAN = 5 
     _GAUSSIAN_MEAN = 10
     _GUASSIAN_VAR = 1
     _UNIFORM_MEAN = 0.1

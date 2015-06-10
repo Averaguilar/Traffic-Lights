@@ -21,7 +21,7 @@ class Learner(object):
 
         self._q_estimate[last_state][switch_lights] = ((1 - alpha) *
             self._q_estimate[last_state][switch_lights] + alpha *
-            (reward2(last_state, switch_lights) + constants.DISCOUNT * max_q))
+            (reward(last_state, switch_lights) + constants.DISCOUNT * max_q))
         self._num_visits[last_state][switch_lights] += 1
 
     def get_action(self, state):
@@ -50,6 +50,3 @@ def reward(state, switch_lights):
         return -1
     else:
         return 0
-
-def reward2(state, switch_lights):
-    return state.closest_car(0) + state.closest_car(1) - 18

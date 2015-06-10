@@ -11,9 +11,9 @@ class Intersection(object):
     def __init__(self):
         """Initialize the intersection with two roads."""
         self._roads = [road.Road(traffic_light.TrafficLight.RED,
-                           distributions.Probability.POISSON),
+                           distributions.Probability.STANDARD),
                  road.Road(traffic_light.TrafficLight.GREEN,
-                           distributions.Probability.POISSON)]
+                           distributions.Probability.STANDARD)]
         self._switch_time = 0
         self._to_switch = None
 

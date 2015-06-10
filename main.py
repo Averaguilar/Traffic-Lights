@@ -34,7 +34,7 @@ def main():
         new_state = intersec.get_state()
         learning_algorithm.learn(old_state, new_state, action)
         time_steps += 1
-        time.sleep(0.5)
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()

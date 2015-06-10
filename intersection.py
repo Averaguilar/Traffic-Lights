@@ -13,7 +13,7 @@ class Intersection(object):
         self._roads = [road.Road(traffic_light.TrafficLight.RED,
                            distributions.Probability.STANDARD),
                  road.Road(traffic_light.TrafficLight.GREEN,
-                           distributions.Probability.STANDARD)]
+                           distributions.Probability.POISSON)]
         self._switch_time = 0
         self._to_switch = None
 
